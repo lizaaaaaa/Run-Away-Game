@@ -2,7 +2,10 @@ import pygame
 import sys
 import time
 import random
-
+try: 
+	abc=sys.argv[1]
+except:
+	abc="Guest: "
 pygame.init()
 #pygame.mixer.init()
 #pygame.mixer.pre_init(44100, -16, 2, 2048)
@@ -10,14 +13,11 @@ pygame.init()
 #pygame.mixer.music.play()
 
 size = width,height = 1500,800
-
 speed = [10,10]
 speed2 = [0,0]
 mycolor = (255, 255, 255)
-
 screen = pygame.display.set_mode(size)
-
-ball = pygame.image.load("trump.jpg");
+ball = pygame.image.load("communism.jpg");
 ball2 = pygame.image.load("usa.jpg")
 ballrect = ball.get_rect()
 ballrect.x=900
@@ -33,6 +33,8 @@ horiz=3
 win = True
 timeleft=60
 center=0
+end=0
+leaderboard="1"
 score="Time remaining: 60"
 myfont = pygame.font.SysFont(None, 30)
 def enemy():
@@ -81,6 +83,7 @@ while True:
 
 	if (pygame.time.get_ticks() - lasttime3 > 1000):
 		if win==False:
+			leaderboard=str(60-timeleft)
 			center=2
 		elif timeleft<=0:
 			center=1
@@ -100,32 +103,52 @@ while True:
 	if win==True:
 		if ballrect.colliderect(ballrect2):
 			win=False
+			leaderboard=str(60-timeleft)
 			speed = [0,0]
 			speed2 = [0,0]
-			myfont = pygame.font.SysFont(None, 100)
-			label = myfont.render("AMERICA HAS BEEN DESTROYED.", 1, (0,0,0))
-			screen.blit(label, (170, 300))
-			myfont2 = pygame.font.SysFont(None, 100)
-			label2 = myfont2.render("YOU LOSE :(", 1, (0,0,0))
-			screen.blit(label2, (500, 450))
+			f = open("highscore.txt", 'a')
+			f.write(abc +leaderboard + "\n")
+			f.close()
+			end=0
+			break
 	screen.fill(mycolor)
 	screen.blit(ball,ballrect)
 	screen.blit(ball2,ballrect2)	
 	if center==0:
 		screen.blit(label, (1250, 750))
 	elif center==1:
-		myfont = pygame.font.SysFont(None, 100)
-		label = myfont.render("YOU WIN!!", 1, (0,0,0))
-		screen.blit(label, (620, 350))
+		end=1
 		speed=[0,0]
 		speed2=[0,0]
+		f = open("highscore.txt", 'a')
+		f.write(abc +leaderboard + "\n")
+		f.close()
+		break
 	else:
-		myfont = pygame.font.SysFont(None, 100)
-		label = myfont.render("AMERICA HAS BEEN DESTROYED.", 1, (0,0,0))
-		screen.blit(label, (170, 300))
-		myfont2 = pygame.font.SysFont(None, 100)
-		label2 = myfont2.render("YOU LOSE :(", 1, (0,0,0))
-		screen.blit(label2, (500, 450))
+		end=0
 		speed=[0,0]
 		speed2=[0,0]
+		f = open("highscore.txt", 'a')
+		f.write(abc +leaderboard + "\n")
+		f.close()
+		break
+	pygame.display.flip()
+while True:
+	for event in pygame.event.get():
+		if event.type == pygame.QUIT:
+			sys.exit()
+		if end==0:
+			myfont = pygame.font.SysFont(None, 100)
+			label = myfont.render("F*** THE COMMIES.", 1, (0,0,0))
+			screen.blit(label, (430, 300))
+			myfont2 = pygame.font.SysFont(None, 100)
+			if int(leaderboard)==1:
+				label2 = myfont2.render("YOU SURVIVED FOR "+leaderboard+" SECOND.", 1, (0,0,0))
+			else:
+				label2 = myfont2.render("YOU SURVIVED FOR "+leaderboard+" SECONDS.", 1, (0,0,0))
+			screen.blit(label2, (185, 450))
+		else:
+			myfont = pygame.font.SysFont(None, 100)
+			label = myfont.render("YOU WIN!!", 1, (0,0,0))
+			screen.blit(label, (620, 350))
 	pygame.display.flip()
