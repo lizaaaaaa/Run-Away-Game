@@ -47,11 +47,6 @@ while True:
 		if event.type == pygame.QUIT:
 			sys.exit()
 		if event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_SPACE:
-				if horiz==1:
-					speed2 = [speed2[0]+5, 0]	
-				elif horiz==0:
-					speed2 = [0,5]
 			if event.key == pygame.K_z:
 				speed2 = [0,0]
 			if event.key == pygame.K_UP:
@@ -137,18 +132,18 @@ while True:
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
 			sys.exit()
-		if end==0:
-			myfont = pygame.font.SysFont(None, 100)
-			label = myfont.render("F*** THE COMMIES.", 1, (0,0,0))
-			screen.blit(label, (430, 300))
-			myfont2 = pygame.font.SysFont(None, 100)
-			if int(leaderboard)==1:
-				label2 = myfont2.render("YOU SURVIVED FOR "+leaderboard+" SECOND.", 1, (0,0,0))
-			else:
-				label2 = myfont2.render("YOU SURVIVED FOR "+leaderboard+" SECONDS.", 1, (0,0,0))
-			screen.blit(label2, (185, 450))
+	if end==0:
+		myfont = pygame.font.SysFont(None, 100)
+		label = myfont.render("F*** THE COMMIES.", 1, (0,0,0))
+		screen.blit(label, (430, 300))
+		myfont2 = pygame.font.SysFont(None, 100)
+		if int(leaderboard)==1:
+			label2 = myfont2.render("YOU SURVIVED FOR "+leaderboard+" SECOND.", 1, (0,0,0))
 		else:
-			myfont = pygame.font.SysFont(None, 100)
-			label = myfont.render("YOU WIN!!", 1, (0,0,0))
-			screen.blit(label, (620, 350))
+			label2 = myfont2.render("YOU SURVIVED FOR "+leaderboard+" SECONDS.", 1, (0,0,0))
+		screen.blit(label2, (185, 450))
+	else:
+		myfont = pygame.font.SysFont(None, 100)
+		label = myfont.render("YOU WIN!!", 1, (0,0,0))
+		screen.blit(label, (620, 350))
 	pygame.display.flip()
